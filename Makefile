@@ -3,7 +3,7 @@ GO?=go
 
 LINT_FLAGS := run -v --deadline=120s
 LINTER_EXE := golangci-lint
-LINTER_BIN := ./bin/$(LINTER_EXE)
+LINTER := ./bin/$(LINTER_EXE)
 TESTFLAGS := -v -cover -tags=integration -timeout 120s
 
 $(LINTER):
@@ -15,7 +15,7 @@ test:
 	$(GO) test $(TESTFLAGS) ./...
 
 lint: $(LINTER)
-	$(LINTER_BIN) $(LINT_FLAGS) ./...
+	$(LINTER) $(LINT_FLAGS) ./...
 
 GFMT=find . -not \( \( -wholename "./vendor" \) -prune \) -name "*.go" | xargs gofmt -l
 gofmt:
