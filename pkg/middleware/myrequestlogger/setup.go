@@ -9,20 +9,26 @@ import (
 )
 
 var pattern = `User-agent is [%{User-agent}i], Request-Id is [%{X-Request-ID}i]`
-var log *apachelog.ApacheLog
+var alog *apachelog.ApacheLog
+
+const order = 200
 
 func init() {
 	var err error
-	log, err = apachelog.New(pattern)
+	alog, err = apachelog.New(pattern)
 	if err != nil {
 		panic(err)
 	}
 
-	togouchi.Register(myRequestLoggingHandler)
+	togouchi.Register(togouchi.Middleware{
+		HandlerCall: myRequestLoggingHandler,
+		Description: "my request logger",
+		Order:       order,
+	})
 }
 
-func myRequestLoggingHandler(h http.Handler) http.Handler {
+func myRequestLoggingHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		log.Wrap(h, os.Stdout).ServeHTTP(w, r)
+		alog.Wrap(next, os.Stdout).ServeHTTP(w, r)
 	})
 }

@@ -8,12 +8,18 @@ import (
 	"github.com/gorilla/handlers"
 )
 
+const order = 100
+
 func init() {
-	togouchi.Register(requestLoggingHandler)
+	togouchi.Register(togouchi.Middleware{
+		HandlerCall: requestLoggingHandler,
+		Description: "Apache Combined Logging Handler from gorilla",
+		Order:       order,
+	})
 }
 
-func requestLoggingHandler(h http.Handler) http.Handler {
+func requestLoggingHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		handlers.CombinedLoggingHandler(os.Stdout, h).ServeHTTP(w, r)
+		handlers.CombinedLoggingHandler(os.Stdout, next).ServeHTTP(w, r)
 	})
 }

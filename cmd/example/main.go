@@ -6,26 +6,25 @@ import (
 	"net/http"
 
 	// load all registerd middleware
+
 	togouchi "github.com/glower/togouchi/pkg"
 	_ "github.com/glower/togouchi/pkg/middleware"
-
 	"github.com/gorilla/mux"
 )
 
 func main() {
-	r := mux.NewRouter()
-	r.HandleFunc("/", HomeHandler)
-	r.HandleFunc("/products/{id}/", ProductsHandler)
-	r.HandleFunc("/articles/{id}/", ArticlesHandler)
-	http.Handle("/", r)
+	m := http.NewServeMux()
 
-	log.Fatal(http.ListenAndServe(":8000", togouchi.Run(r)))
+	m.HandleFunc("/", HomeHandler)
+	m.HandleFunc("/products/{id}/", ProductsHandler)
+	m.HandleFunc("/articles/{id}/", ArticlesHandler)
+
+	log.Fatal(http.ListenAndServe(":8000", togouchi.Run(m)))
 }
 
 // HomeHandler ...
 func HomeHandler(res http.ResponseWriter, req *http.Request) {
-	rid := req.Header.Get("X-Request-ID")
-	log.Printf(">>> HomeHandler(): RID: %s\n", rid)
+	fmt.Println("HomeHandler(): Welcome Home!")
 	res.WriteHeader(http.StatusOK)
 	fmt.Fprint(res, "Welcome Home!\n")
 }
