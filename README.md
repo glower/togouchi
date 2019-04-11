@@ -11,6 +11,7 @@ See `cmd/example/main.go`
 - [x] Create README
 - [ ] Add logging
 - [ ] Add status endpoints
+- [ ] Tests
 
 ## Thanks
 
