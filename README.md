@@ -4,9 +4,16 @@ Togouchi is an attempt to create same functionality as [talisker](https://github
 
 ## Quick Start
 
-TODO
+See `cmd/example/main.go`
 
 ## Implemented Feature List
 
 - [x] Create README
-- [ ] TODO 2
+- [ ] Add logging
+- [ ] Add status endpoints
+
+## Thanks
+
+- [Talisker](https://github.com/canonical-ols/talisker)
+- [Alice](github.com/justinas/alice)
+- [Caddy](https://github.com/mholt/caddy)
